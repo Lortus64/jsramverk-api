@@ -6,3 +6,17 @@ node_js:
     - "11"
     - "10"
 services: mongodb
+
+sudo: false
+
+git:
+    submodules: false
+
+before_script:
+    - npm install
+
+script:
+    - npm test
+
+after_success:
+    - npm run eslint
