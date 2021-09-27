@@ -4,12 +4,13 @@ const config = require("./config.json");
 const collectionName = "files";
 
 const database = {
-    getDB: async function getDB(params) {
-        let dsn = `mongodb+srv://editor:${config.password}@cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
+    getDB: async function getDB() {
+        let dsn = `mongodb+srv://editor:${config.password}
+                    @cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
 
-        // if (process.env.NODE_ENV === 'test') {
-        //     dsn = "mongodb://localhost:27017/test";
-        // }
+        if (process.env.NODE_ENV === 'test') {
+            dsn = "mongodb://localhost:27017/test";
+        }
 
         const client = await mongo.connect(dsn, {
             useNewUrlParser: true,
@@ -25,6 +26,6 @@ const database = {
             client: client,
         };
     }
-}
+};
 
 module.exports = database;

@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "production": "NODE_ENV='production' node app.js"
+    "dev": "nodemon app.js",
+    "production": "NODE_ENV='production' node app.js",
+    "test": "node src/db/setup.js && nyc --reporter=html --reporter=text --reporter=clover mocha 'test/**/*.js'",
+    "eslint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +18,14 @@
     "express": "^4.17.1",
     "mongodb": "^4.1.1",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.26.0",
+    "javascript-style-guide": "^1.0.1",
+    "mocha": "^9.1.1",
+    "nyc": "^15.1.0"
   }
 }
