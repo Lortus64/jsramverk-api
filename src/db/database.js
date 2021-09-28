@@ -1,6 +1,6 @@
 //MongoDB
 const mongo = require("mongodb").MongoClient;
-// const config = require("./config.json");
+let config;
 const collectionName = "files";
 
 const database = {
@@ -11,8 +11,11 @@ const database = {
             dsn = "mongodb://localhost:27017/test";
         } else {
             try {
+                config = require("./config.json");
+
                 dsn = `mongodb+srv://editor:${config.password}
                         @cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
+
             } catch (error) {}
         }
 
