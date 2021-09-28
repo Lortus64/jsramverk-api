@@ -5,11 +5,13 @@ const collectionName = "files";
 
 const database = {
     getDB: async function getDB() {
-        let dsn = `mongodb+srv://editor:${config.password}
-                    @cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
+        let dsn;
 
         if (process.env.NODE_ENV === 'test') {
             dsn = "mongodb://localhost:27017/test";
+        } else {
+            dsn = `mongodb+srv://editor:${config.password}
+                    @cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
         }
 
         const client = await mongo.connect(dsn, {
