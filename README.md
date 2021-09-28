@@ -1,3 +1,4 @@
+[![Build Status](https://app.travis-ci.com/Lortus64/jsramverk-api.svg?branch=main)](https://app.travis-ci.com/Lortus64/jsramverk-api)
 # Editor api
 
 Editor api a api that connects with the editor frontend. The api hadel calls for getting, updating and editing files.
