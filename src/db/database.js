@@ -1,21 +1,18 @@
 //MongoDB
 const mongo = require("mongodb").MongoClient;
-const config = require("./config.json");
+try {
+    const config = require("./config.json");
+} catch (error) {
+    console.log(error)
+};
 const collectionName = "files";
 
 const database = {
     getDB: async function getDB() {
-        let dsn;
-
-        try {
-            dsn = `mongodb+srv://editor:${config.password}
+        let dsn = `mongodb+srv://editor:${config.password}
                     @cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
 
-            if (process.env.NODE_ENV === 'test') {
-                dsn = "mongodb://localhost:27017/test";
-            }
-        } catch (error) {
-            console.log(error);
+        if (process.env.NODE_ENV === 'test') {
             dsn = "mongodb://localhost:27017/test";
         }
 
