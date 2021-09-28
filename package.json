@@ -7,7 +7,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "production": "NODE_ENV='production' node app.js",
-    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha 'test/**/*.js'",
+    "test": "node src/db/setup.js && nyc --reporter=html --reporter=text --reporter=clover mocha 'test/**/*.js'",
     "eslint": "eslint ."
   },
   "author": "",

@@ -7,11 +7,16 @@ const database = {
     getDB: async function getDB() {
         let dsn;
 
-        if (process.env.NODE_ENV === 'test') {
-            dsn = "mongodb://localhost:27017/test";
-        } else {
+        try {
             dsn = `mongodb+srv://editor:${config.password}
                     @cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
+
+            if (process.env.NODE_ENV === 'test') {
+                dsn = "mongodb://localhost:27017/test";
+            }
+        } catch (error) {
+            console.log(error);
+            dsn = "mongodb://localhost:27017/test";
         }
 
         const client = await mongo.connect(dsn, {
