@@ -13,9 +13,7 @@ const database = {
             try {
                 config = require("./config.json");
 
-                dsn = `mongodb+srv://editor:${config.password}
-                        @cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
-
+                dsn = `mongodb+srv://editor:${config.password}@cluster0.sa828.mongodb.net/db?retryWrites=true&w=majority`;
             } catch (error) {}
         }
 
