@@ -1,6 +1,6 @@
 //MongoDB
 const mongo = require("mongodb").MongoClient;
-const config = require("./config.json");
+// const config = require("./config.json");
 const collectionName = "files";
 
 const database = {
