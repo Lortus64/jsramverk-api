@@ -11,6 +11,42 @@ const index = require('./routes/index');
 
 app.use(cors());
 
+
+//?Socket
+const httpServer = require("http").createServer(app);
+
+const io = require("socket.io")(httpServer, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
+
+io.on('connection', function(socket) {
+    console.log("User connected"); // Nått lång och slumpat
+
+    socket.on('create', function(room) {
+        console.log("Creating room: " + room)
+        socket.join(room);
+    });
+
+    socket.on('update', function(data) {
+        console.log(data);
+        socket.to(data.dataObj._id).emit("dataB", data.text);
+    });
+
+    socket.on('leave', function(room) {
+        console.log("Leaving room: " + room)
+        socket.leave(room);
+    });
+
+    socket.on('disconnect', function() {
+        console.log("User disconnected")
+    });
+});
+
+
+
 //?Middleware
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
@@ -48,6 +84,6 @@ app.use((err, req, res, next) => {
 });
 
 // Start up server
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const server = httpServer.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 module.exports = server;
