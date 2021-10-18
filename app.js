@@ -3,11 +3,13 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.PORT || 1337;
 
 const index = require('./routes/index');
+const userR = require('./routes/user');
 
 app.use(cors());
 
@@ -57,6 +59,8 @@ if (process.env.NODE_ENV !== 'test') {
 
 //?routes
 app.use('/', index);
+
+app.use('/user', userR);
 
 
 //? routes for 404 and error handling

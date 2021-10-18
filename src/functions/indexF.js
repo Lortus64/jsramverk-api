@@ -8,7 +8,7 @@ const mongo = require("mongodb");
 
 async function getNames() {
     try {
-        var db = await database.getDB();
+        var db = await database.getDB("files");
 
         return await db.collection.find({}, { projection: {name: 1}}).toArray();
     } catch (error) {
@@ -28,12 +28,24 @@ async function getNames() {
  asd asjdlkajlsdjl
 */
 
-async function getOne(criteria) {
+async function getOne(req, res) {
     try {
-        var db = await database.getDB();
-        var o_id = new mongo.ObjectId(criteria);
+        var db = await database.getDB("files");
+        var o_id = new mongo.ObjectId(req.body.id);
 
-        return await db.collection.find({"_id": o_id}, {}).toArray();
+        var file = await db.collection.find({"_id": o_id}, {}).toArray();
+
+        if(file[0].auth.includes(res.locals.token.name) || file[0].auth.includes("ALL")) {
+            return file;
+        };
+
+        return {
+            error: {
+                status: 500,
+                titel: "Not authorised",
+            }
+        };
+
     } catch (error) {
         return {
             error: {
@@ -53,9 +65,9 @@ async function getOne(criteria) {
 
 async function createOne(name, content) {
     try {
-        var db = await database.getDB();
+        var db = await database.getDB("files");
 
-        await db.collection.insertOne({name: name, content: content});
+        await db.collection.insertOne({name: name, content: content, auth:["ALL"]});
         return {
             data: {
                 msg: "Creating new file in database",
@@ -82,7 +94,7 @@ async function createOne(name, content) {
 
 async function updateOne(criteria, name, content) {
     try {
-        var db = await database.getDB();
+        var db = await database.getDB("files");
         var o_id = new mongo.ObjectId(criteria);
 
         await db.collection.updateOne({"_id": o_id}, {$set: { "name": name, "content": content }});

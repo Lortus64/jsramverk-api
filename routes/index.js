@@ -1,7 +1,8 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var router = express.Router();
-var functions = require("../src/functions/route.js");
+const express = require("express");
+const bodyParser = require("body-parser");
+const router = express.Router();
+const functions = require("../src/functions/indexF.js");
+const middleware = require("../src/functions/middleware.js");
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -28,13 +29,15 @@ router.post("/update", async (req, res) => {
     res.json(result);
 });
 
-router.post("/listOne", async (req, res) => {
-    console.info(req.body);
-    let result = await functions.getOne(req.body.id);
+router.post("/listOne",
+    (req, res, next) => middleware.checkToken(req, res, next),
+    async (req, res) => {
+        console.info(req.body);
+        let result = await functions.getOne(req, res);
 
-    console.log(result);
-    res.json(result);
-});
+        console.log(result);
+        res.json(result);
+    });
 
 
 module.exports = router;

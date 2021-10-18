@@ -1,10 +1,9 @@
 //MongoDB
 const mongo = require("mongodb").MongoClient;
 let config;
-const collectionName = "files";
 
 const database = {
-    getDB: async function getDB() {
+    getDB: async function getDB(collectionName) {
         let dsn;
 
         if (process.env.NODE_ENV === 'test') {
