@@ -6,6 +6,30 @@ const mongo = require("mongodb");
  asd asjdlkajlsdjl
 */
 
+async function getAll() {
+    try {
+        var db = await database.getDB("files");
+
+        let result = await db.collection.find({}).toArray();
+
+        console.log(result);
+
+        return result
+    } catch (error) {
+        return {
+            error: {
+                status: 500,
+                titel: "Error getting names",
+                message: error.message
+            }
+        };
+    } finally {
+        await db.client.close();
+    }
+}
+
+
+
 async function getNames() {
     try {
         var db = await database.getDB("files");
@@ -119,4 +143,4 @@ async function updateOne(criteria, name, content) {
     }
 }
 
-module.exports = {getNames, getOne, createOne, updateOne};
+module.exports = {getAll, getNames, getOne, createOne, updateOne};

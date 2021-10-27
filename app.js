@@ -3,7 +3,13 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
+
+const visual = true;
+const { graphqlHTTP } = require('express-graphql');
+const {
+  GraphQLSchema
+} = require("graphql");
+const RootQueryTypeInject = require('./src/graphql/rootType.js');
 
 const app = express();
 const port = process.env.PORT || 1337;
@@ -12,7 +18,6 @@ const index = require('./routes/index');
 const userR = require('./routes/user');
 
 app.use(cors());
-
 
 //?Socket
 const httpServer = require("http").createServer(app);
@@ -57,7 +62,23 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 
+
+const types = {};
+types.RootQueryType = RootQueryTypeInject(types);
+const RootQueryType = types.RootQueryType;
+
+const schema = new GraphQLSchema({
+    query: RootQueryType
+});
+
+
+
 //?routes
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    graphiql: visual
+}));
+
 app.use('/', index);
 
 app.use('/user', userR);

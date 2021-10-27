@@ -82,4 +82,23 @@ async function checkPass(name, pass) {
     }
 }
 
-module.exports = {createUser, checkPass};
+async function getAll() {
+    try{
+        var db = await database.getDB("users");
+
+        return await db.collection.find({}).toArray();
+
+    } catch (error) {
+        return {
+            error: {
+                status: 500,
+                titel: "Error getting one",
+                message: error.message
+            }
+        };
+    } finally {
+        await db.client.close();
+    }
+}
+
+module.exports = {createUser, checkPass, getAll};
