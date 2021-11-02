@@ -1,8 +1,6 @@
 var database = require("../db/database.js");
-const mongo = require("mongodb");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const { token } = require("morgan");
 const saltRounds = 7;
 
 async function createUser(name, pass) {

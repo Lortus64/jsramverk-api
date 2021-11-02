@@ -39,5 +39,23 @@ router.post("/listOne",
         res.json(result);
     });
 
+    // input id, token, mail
+router.post("/mailInvite",
+    (req, res, next) => middleware.checkToken(req, res, next),
+    async (req, res) => {
+        console.info(req.body);
+        let data = await functions.getOne(req, res);
+        console.log(data);
+
+        let result = await functions.updateAuth(req, data[0]);
+
+        if(!result.error) {
+            await functions.mail(req);
+        };
+
+        console.log(result);
+        res.json(result);
+    });
+
 
 module.exports = router;
